@@ -1,0 +1,1853 @@
+<html>
+
+<head>
+       <meta charset="utf-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <style>
+              body {
+                     font-family: "Roboto", Corbel, Avenir, "Lucida Grande", "Lucida Sans", sans-serif !important;
+                     line-height: 1.2;
+                     color: #3e4349;
+                     font-size: 13px;
+                     text-align: justify;
+              }
+       </style>
+</head>
+
+<body>
+       <div class="container">
+              <h2>리눅스 시스템 호출 정리</h2>
+              <p>
+                     이하 문서는 리눅스의 시스템 콜(x86)을 일부 정리한 문서입니다.<br/> 
+                     시스템 호출의 이름(Name)을 클릭하면 해당 시스템 호출에 대한 자세한 정보를 안내하는 공식 페이지로 이동됩니다.<br/>
+			또한 Definintion 항목을 클릭하면 해당 시스템 호출이 정의되어 있는 리눅스 내의 소스코드로 이동됩니다.<br/>
+                     <i>(정확한 소스 코드의 라인 넘버는 리눅스 커널 버전이 업데이트됨에 따라 정확히 들어맞지 않을 수 있습니다)</i><br/>
+			혹여 영문이 어렵거나 특정 시스템 호출에 대한 추가 설명이 필요하다면 <a href="https://github.com/kangtegong/self-learning-cs/issues">이 곳으로 문의</a> 바랍니다.<br/>
+        		영문 해석이 어렵다는 문의가 많을 경우 해석본을 올려드리겠습니다.
+			<br/><br/>
+			또한 리눅스의 시스템 콜을 이보다 상세히 안내한 다른 문서들도 하단 링크에 첨부드립니다. 함께 참고하시면 도움이 될 것입니다.<br/>
+			<a href="https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md">Chromium OS docs: Linux System Call Table</a>
+              </p>
+
+              <table class="table table-striped">
+                     <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Definition</th>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/read.2.html">read</a></td>
+                            <td> read from a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L584">fs/read_write.c:584</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/write.2.html">write</a></td>
+                            <td> write to a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L599">fs/read_write.c:599</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/open.2.html">open</a></td>
+                            <td> open and possibly create a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/fhandle.c#L255">fs/fhandle.c:255</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/close.2.html">close</a></td>
+                            <td> close a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L1127">fs/open.c:1127</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/poll.2.html">poll</a></td>
+                            <td> wait for some event on a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/select.c#L971">fs/select.c:971</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lseek.2.html">lseek</a></td>
+                            <td> reposition read/write file offset</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L305">fs/read_write.c:305</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mmap.2.html">mmap</a></td>
+                            <td> map or unmap files or devices into memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/arch/microblaze/kernel/sys_microblaze.c#L36">arch/microblaze/kernel/sys_microblaze.c:36</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mprotect.2.html">mprotect</a></td>
+                            <td> set protection on a region of memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mprotect.c#L494">mm/mprotect.c:494</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/munmap.2.html">munmap</a></td>
+                            <td> map or unmap files or devices into memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mmap.c#L2681">mm/mmap.c:2681</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/brk.2.html">brk</a></td>
+                            <td> change data segment size</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mmap.c#L181">mm/mmap.c:181</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigaction.2.html">rt_sigaction</a>
+                            </td>
+                            <td> examine and change a signal action</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L3321">kernel/signal.c:3321</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigprocmask.2.html">rt_sigprocmask</a>
+                            </td>
+                            <td> examine and change blocked signals</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2548">kernel/signal.c:2548</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ioctl.2.html">ioctl</a></td>
+                            <td> control device</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/ioctl.c#L689">fs/ioctl.c:689</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pread64.2.html">pread64</a></td>
+                            <td> read from or write to a file descriptor at a given
+                                   offset</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L616">fs/read_write.c:616</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pwrite64.2.html">pwrite64</a></td>
+                            <td> read from or write to a file descriptor at a given
+                                   offset</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L636">fs/read_write.c:636</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/readv.2.html">readv</a></td>
+                            <td> read or write
+                                   data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1008">fs/read_write.c:1008</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/writev.2.html">writev</a></td>
+                            <td> read or write data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1014">fs/read_write.c:1014</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/access.2.html">access</a></td>
+                            <td> check user's permissions for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L430">fs/open.c:430</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pipe.2.html">pipe</a></td>
+                            <td> create pipe</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/pipe.c#L861">fs/pipe.c:861</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/select.2.html">select</a></td>
+                            <td> synchronous I/O
+                                   multiplexing</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/select.c#L634">fs/select.c:634</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_yield.2.html">sched_yield</a></td>
+                            <td> yield the processor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4882">kernel/sched/core.c:4882</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mremap.2.html">mremap</a></td>
+                            <td> remap a virtual memory address</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mremap.c#L491">mm/mremap.c:491</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/msync.2.html">msync</a></td>
+                            <td> synchronize a file with a memory map</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/msync.c#L31">mm/msync.c:31</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mincore.2.html">mincore</a></td>
+                            <td> determine whether pages are resident in memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mincore.c#L222">mm/mincore.c:222</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/madvise.2.html">madvise</a></td>
+                            <td> give advice about use of memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/madvise.c#L677">mm/madvise.c:677</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/shmget.2.html">shmget</a></td>
+                            <td> allocates a System V shared memory segment</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/shm.c#L657">ipc/shm.c:657</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/shmat.2.html">shmat</a></td>
+                            <td> System V shared memory operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/shm.c#L1255">ipc/shm.c:1255</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/shmctl.2.html">shmctl</a></td>
+                            <td> System V shared memory control</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/shm.c#L987">ipc/shm.c:987</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/dup.2.html">dup</a></td>
+                            <td> duplicate a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/file.c#L938">fs/file.c:938</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/dup2.2.html">dup2</a></td>
+                            <td> duplicate a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/file.c#L923">fs/file.c:923</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pause.2.html">pause</a></td>
+                            <td> wait for signal</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L3518">kernel/signal.c:3518</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/nanosleep.2.html">nanosleep</a></td>
+                            <td> high</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/hrtimer.c#L1576">kernel/time/hrtimer.c:1576</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getitimer.2.html">getitimer</a></td>
+                            <td> get or set value of an interval timer</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/itimer.c#L103">kernel/time/itimer.c:103</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/alarm.2.html">alarm</a></td>
+                            <td> set an alarm clock for delivery of a signal</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/itimer.c#L284">kernel/time/itimer.c:284</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setitimer.2.html">setitimer</a></td>
+                            <td> get or set value of an interval timer</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/itimer.c#L291">kernel/time/itimer.c:291</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getpid.2.html">getpid</a></td>
+                            <td> get process identification</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L830">kernel/sys.c:830</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sendfile64.2.html">sendfile64</a></td>
+                            <td> transfer data between file descriptors</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1448">fs/read_write.c:1448</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/socket.2.html">socket</a></td>
+                            <td> create an endpoint for communication</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1249">net/socket.c:1249</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/connect.2.html">connect</a></td>
+                            <td> initiate a connection on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1560">net/socket.c:1560</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/accept.2.html">accept</a></td>
+                            <td> accept a connection on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1542">net/socket.c:1542</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sendto.2.html">sendto</a></td>
+                            <td> send a message on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1655">net/socket.c:1655</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/recvfrom.2.html">recvfrom</a></td>
+                            <td> receive a message from a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1711">net/socket.c:1711</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sendmsg.2.html">sendmsg</a></td>
+                            <td> send a message on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L2026">net/socket.c:2026</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/recvmsg.2.html">recvmsg</a></td>
+                            <td> receive a message from a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L2196">net/socket.c:2196</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/shutdown.2.html">shutdown</a></td>
+                            <td> shut down part of a full</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1831">net/socket.c:1831</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/bind.2.html">bind</a></td>
+                            <td> bind a name to a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1399">net/socket.c:1399</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/listen.2.html">listen</a></td>
+                            <td> listen for connections on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1428">net/socket.c:1428</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getsockname.2.html">getsockname</a></td>
+                            <td> get socket name</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1592">net/socket.c:1592</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getpeername.2.html">getpeername</a></td>
+                            <td> get name of connected peer socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1623">net/socket.c:1623</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/socketpair.2.html">socketpair</a></td>
+                            <td> create a pair of connected sockets</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1290">net/socket.c:1290</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setsockopt.2.html">setsockopt</a></td>
+                            <td> get and set options on sockets</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1767">net/socket.c:1767</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getsockopt.2.html">getsockopt</a></td>
+                            <td> get and set options on sockets</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1801">net/socket.c:1801</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/exit.2.html">exit</a></td>
+                            <td> terminate the calling process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/exit.c#L910">kernel/exit.c:910</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/wait4.2.html">wait4</a></td>
+                            <td> wait for process to change state, BSD style</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/exit.c#L1664">kernel/exit.c:1664</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/kill.2.html">kill</a></td>
+                            <td> send signal to a process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2860">kernel/signal.c:2860</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/newuname.2.html">newuname</a></td>
+                            <td> </td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1141">kernel/sys.c:1141</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/semget.2.html">semget</a></td>
+                            <td> get a System V semaphore set identifier</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/sem.c#L545">ipc/sem.c:545</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/semop.2.html">semop</a></td>
+                            <td> System V semaphore operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/sem.c#L2012">ipc/sem.c:2012</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/semctl.2.html">semctl</a></td>
+                            <td> System V semaphore control operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/sem.c#L1576">ipc/sem.c:1576</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/shmdt.2.html">shmdt</a></td>
+                            <td> System V shared memory operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/shm.c#L1271">ipc/shm.c:1271</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/msgget.2.html">msgget</a></td>
+                            <td> get a System V message queue identifier</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/msg.c#L265">ipc/msg.c:265</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/msgsnd.2.html">msgsnd</a></td>
+                            <td> System V message queue operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/msg.c#L743">ipc/msg.c:743</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/msgrcv.2.html">msgrcv</a></td>
+                            <td> System V message queue operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/msg.c#L1007">ipc/msg.c:1007</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/msgctl.2.html">msgctl</a></td>
+                            <td> System V message control operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/msg.c#L555">ipc/msg.c:555</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fcntl.2.html">fcntl</a></td>
+                            <td> manipulate file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/fcntl.c#L357">fs/fcntl.c:357</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/flock.2.html">flock</a></td>
+                            <td> apply or remove an advisory lock on an open file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/locks.c#L1988">fs/locks.c:1988</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fsync.2.html">fsync</a></td>
+                            <td> synchronize a file's in</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/sync.c#L225">fs/sync.c:225</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fdatasync.2.html">fdatasync</a></td>
+                            <td> synchronize a file's in</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/sync.c#L230">fs/sync.c:230</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/truncate.2.html">truncate</a></td>
+                            <td> truncate a file to a specified length</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L153">fs/open.c:153</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ftruncate.2.html">ftruncate</a></td>
+                            <td> truncate a file to a specified length</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L212">fs/open.c:212</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getdents.2.html">getdents</a></td>
+                            <td> get directory entries</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/readdir.c#L211">fs/readdir.c:211</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getcwd.2.html">getcwd</a></td>
+                            <td> get current working directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/dcache.c#L3413">fs/dcache.c:3413</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/chdir.2.html">chdir</a></td>
+                            <td> change working directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L435">fs/open.c:435</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fchdir.2.html">fchdir</a></td>
+                            <td> change working directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L461">fs/open.c:461</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rename.2.html">rename</a></td>
+                            <td> change the name or location of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4570">fs/namei.c:4570</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mkdir.2.html">mkdir</a></td>
+                            <td> create a directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L3770">fs/namei.c:3770</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rmdir.2.html">rmdir</a></td>
+                            <td> delete a directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L3873">fs/namei.c:3873</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/creat.2.html">creat</a></td>
+                            <td> open and possibly create a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L1089">fs/open.c:1089</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/link.2.html">link</a></td>
+                            <td> make a new name for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4242">fs/namei.c:4242</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/unlink.2.html">unlink</a></td>
+                            <td> delete a name and possibly the file it refers to</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4026">fs/namei.c:4026</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/symlink.2.html">symlink</a></td>
+                            <td> make a new name for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4083">fs/namei.c:4083</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/readlink.2.html">readlink</a></td>
+                            <td> read value of a symbolic link</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/stat.c#L351">fs/stat.c:351</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/chmod.2.html">chmod</a></td>
+                            <td> change permissions of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L579">fs/open.c:579</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fchmod.2.html">fchmod</a></td>
+                            <td> change permissions of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L548">fs/open.c:548</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/chown.2.html">chown</a></td>
+                            <td> change ownership of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L658">fs/open.c:658</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fchown.2.html">fchown</a></td>
+                            <td> change ownership of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L669">fs/open.c:669</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lchown.2.html">lchown</a></td>
+                            <td> change ownership of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L663">fs/open.c:663</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/umask.2.html">umask</a></td>
+                            <td> set file mode creation mask</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1647">kernel/sys.c:1647</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/gettimeofday.2.html">gettimeofday</a>
+                            </td>
+                            <td> get / set time</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/time.c#L102">kernel/time/time.c:102</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getrlimit.2.html">getrlimit</a></td>
+                            <td> get/set resource limits</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1290">kernel/sys.c:1290</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getrusage.2.html">getrusage</a></td>
+                            <td> get resource usage</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1625">kernel/sys.c:1625</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sysinfo.2.html">sysinfo</a></td>
+                            <td> return system information</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L2350">kernel/sys.c:2350</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/times.2.html">times</a></td>
+                            <td> get process times</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L895">kernel/sys.c:895</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ptrace.2.html">ptrace</a></td>
+                            <td> process trace</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/ptrace.c#L1108">kernel/ptrace.c:1108</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getuid.2.html">getuid</a></td>
+                            <td> get user identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L858">kernel/sys.c:858</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/syslog.2.html">syslog</a></td>
+                            <td> read and/or clear kernel message ring buffer; set console_loglevel</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/printk/printk.c#L1503">kernel/printk/printk.c:1503</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getgid.2.html">getgid</a></td>
+                            <td> get group identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L870">kernel/sys.c:870</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setuid.2.html">setuid</a></td>
+                            <td> set user identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L533">kernel/sys.c:533</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setgid.2.html">setgid</a></td>
+                            <td> set group identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L386">kernel/sys.c:386</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/geteuid.2.html">geteuid</a></td>
+                            <td> get user identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L864">kernel/sys.c:864</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getegid.2.html">getegid</a></td>
+                            <td> get group identity</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L876">kernel/sys.c:876</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setpgid.2.html">setpgid</a></td>
+                            <td> set/get process group</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L919">kernel/sys.c:919</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getppid.2.html">getppid</a></td>
+                            <td> get process identification</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L847">kernel/sys.c:847</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getpgrp.2.html">getpgrp</a></td>
+                            <td> set/get process group</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1020">kernel/sys.c:1020</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setsid.2.html">setsid</a></td>
+                            <td> creates a session and sets the process group ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1066">kernel/sys.c:1066</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setreuid.2.html">setreuid</a></td>
+                            <td> set real and/or effective user or group ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L462">kernel/sys.c:462</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setregid.2.html">setregid</a></td>
+                            <td> set real and/or effective user or group ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L329">kernel/sys.c:329</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getgroups.2.html">getgroups</a></td>
+                            <td> get/set list of supplementary group IDs</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/groups.c#L165">kernel/groups.c:165</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setgroups.2.html">setgroups</a></td>
+                            <td> get/set list of supplementary group IDs</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/groups.c#L202">kernel/groups.c:202</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setresuid.2.html">setresuid</a></td>
+                            <td> set real, effective and saved user or group ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L580">kernel/sys.c:580</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getresuid.2.html">getresuid</a></td>
+                            <td> get real, effective and saved user/group IDs</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L645">kernel/sys.c:645</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setresgid.2.html">setresgid</a></td>
+                            <td> set real, effective and saved user or group ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L667">kernel/sys.c:667</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getresgid.2.html">getresgid</a></td>
+                            <td> get real, effective and saved user/group IDs</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L719">kernel/sys.c:719</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getpgid.2.html">getpgid</a></td>
+                            <td> set/get process group</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L990">kernel/sys.c:990</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setfsuid.2.html">setfsuid</a></td>
+                            <td> set user identity used for filesystem checks</td>
+
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L746">kernel/sys.c:746</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setfsgid.2.html">setfsgid</a></td>
+                            <td> set group identity used for filesystem checks</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L785">kernel/sys.c:785</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getsid.2.html">getsid</a></td>
+                            <td> get session ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1027">kernel/sys.c:1027</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/capget.2.html">capget</a></td>
+                            <td> set/get capabilities of thread(s)</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/capability.c#L149">kernel/capability.c:149</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/capset.2.html">capset</a></td>
+                            <td> set/get capabilities of thread(s)</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/capability.c#L223">kernel/capability.c:223</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigpending.2.html">rt_sigpending</a>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2638">kernel/signal.c:2638</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigtimedwait.2.html">rt_sigtimedwait</a>
+                            </td>
+                            <td> synchronously wait for
+                                   queued signals</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2824">kernel/signal.c:2824</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigqueueinfo.2.html">rt_sigqueueinfo</a>
+                            </td>
+                            <td> queue a signal and data</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2972">kernel/signal.c:2972</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_sigsuspend.2.html">rt_sigsuspend</a>
+                            </td>
+                            <td> wait for a signal</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L3548">kernel/signal.c:3548</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sigaltstack.2.html">sigaltstack</a></td>
+                            <td> set and/or get signal stack context</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L3173">kernel/signal.c:3173</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/utime.2.html">utime</a></td>
+                            <td> change file last access and modification times</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/utimes.c#L27">fs/utimes.c:27</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mknod.2.html">mknod</a></td>
+                            <td> create a special or ordinary file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L3714">fs/namei.c:3714</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/personality.2.html">personality</a></td>
+                            <td> set the process execution domain</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/exec_domain.c#L50">kernel/exec_domain.c:50</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ustat.2.html">ustat</a></td>
+                            <td> get filesystem statistics</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/statfs.c#L228">fs/statfs.c:228</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/statfs.2.html">statfs</a></td>
+                            <td> get filesystem statistics</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/statfs.c#L172">fs/statfs.c:172</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fstatfs.2.html">fstatfs</a></td>
+                            <td> get filesystem statistics</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/statfs.c#L193">fs/statfs.c:193</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sysfs.2.html">sysfs</a></td>
+                            <td> get filesystem type information</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/filesystems.c#L184">fs/filesystems.c:184</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getpriority.2.html">getpriority</a></td>
+                            <td> get/set program scheduling priority</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L245">kernel/sys.c:245</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setpriority.2.html">setpriority</a></td>
+                            <td> get/set program scheduling priority</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L175">kernel/sys.c:175</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_setparam.2.html">sched_setparam</a>
+                            </td>
+                            <td> set and get scheduling parameters</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4491">kernel/sched/core.c:4491</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_getparam.2.html">sched_getparam</a>
+                            </td>
+                            <td> set and get scheduling parameters</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4565">kernel/sched/core.c:4565</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_setscheduler.2.html">sched_setscheduler</a>
+                            </td>
+                            <td> set and get scheduling policy/parameters</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4474">kernel/sched/core.c:4474</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_getscheduler.2.html">sched_getscheduler</a>
+                            </td>
+                            <td> set and get scheduling policy/parameters</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4536">kernel/sched/core.c:4536</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_get_priority_max.2.html">sched_get_priority_max</a>
+                            </td>
+                            <td> get static priority range</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L5093">kernel/sched/core.c:5093</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_get_priority_min.2.html">sched_get_priority_min</a>
+                            </td>
+                            <td> get static priority range</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L5120">kernel/sched/core.c:5120</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_rr_get_interval.2.html">sched_rr_get_interval</a>
+                            </td>
+                            <td> get the SCHED_RR interval for the named process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L5149">kernel/sched/core.c:5149</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mlock.2.html">mlock</a></td>
+                            <td> lock and unlock memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mlock.c#L712">mm/mlock.c:712</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/munlock.2.html">munlock</a></td>
+                            <td> lock and unlock memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mlock.c#L730">mm/mlock.c:730</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mlockall.2.html">mlockall</a></td>
+                            <td> lock and unlock memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mlock.c#L791">mm/mlock.c:791</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/munlockall.2.html">munlockall</a></td>
+                            <td> lock and unlock memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mlock.c#L822">mm/mlock.c:822</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/vhangup.2.html">vhangup</a></td>
+                            <td> virtually hangup the current terminal</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L1146">fs/open.c:1146</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pivot_root.2.html">pivot_root</a></td>
+                            <td> change the root filesystem</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namespace.c#L3086">fs/namespace.c:3086</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sysctl.2.html">sysctl</a></td>
+                            <td> read/write system parameters</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sysctl_binary.c#L1411">kernel/sysctl_binary.c:1411</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/prctl.2.html">prctl</a></td>
+                            <td> operations on a process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L2066">kernel/sys.c:2066</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/adjtimex.2.html">adjtimex</a></td>
+                            <td> tune kernel clock</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/time.c#L218">kernel/time/time.c:218</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setrlimit.2.html">setrlimit</a></td>
+                            <td> get/set resource limits</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1491">kernel/sys.c:1491</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/chroot.2.html">chroot</a></td>
+                            <td> change root directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L486">fs/open.c:486</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sync.2.html">sync</a></td>
+                            <td> commit filesystem caches to disk</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/sync.c#L107">fs/sync.c:107</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/acct.2.html">acct</a></td>
+                            <td> switch process accounting on or off</td>
+
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/acct.c#L270">kernel/acct.c:270</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/settimeofday.2.html">settimeofday</a>
+                            </td>
+                            <td> get / set time</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/time.c#L193">kernel/time/time.c:193</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mount.2.html">mount</a></td>
+                            <td> mount filesystem</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namespace.c#L3002">fs/namespace.c:3002</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/umount.2.html">umount</a></td>
+                            <td> unmount filesystem</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namespace.c#L1666">fs/namespace.c:1666</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/swapon.2.html">swapon</a></td>
+                            <td> start/stop swapping to file/device</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/swapfile.c#L2387">mm/swapfile.c:2387</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/swapoff.2.html">swapoff</a></td>
+                            <td> start/stop swapping to file/device</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/swapfile.c#L1856">mm/swapfile.c:1856</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/reboot.2.html">reboot</a></td>
+                            <td> reboot or enable/disable Ctrl</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/reboot.c#L280">kernel/reboot.c:280</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sethostname.2.html">sethostname</a></td>
+                            <td> get/set hostname</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1215">kernel/sys.c:1215</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setdomainname.2.html">setdomainname</a>
+                            </td>
+                            <td> get/set NIS domain name</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1266">kernel/sys.c:1266</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/init_module.2.html">init_module</a></td>
+                            <td> load a kernel module</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/module.c#L3770">kernel/module.c:3770</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/delete_module.2.html">delete_module</a>
+                            </td>
+                            <td> unload a kernel module</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/module.c#L934">kernel/module.c:934</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/quotactl.2.html">quotactl</a></td>
+                            <td> manipulate disk quotas</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/quota/quota.c#L835">fs/quota/quota.c:835</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/gettid.2.html">gettid</a></td>
+                            <td> get thread identification</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L836">kernel/sys.c:836</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/readahead.2.html">readahead</a></td>
+                            <td> initiate file readahead into page cache</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/readahead.c#L576">mm/readahead.c:576</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setxattr.2.html">setxattr</a></td>
+                            <td> set an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L479">fs/xattr.c:479</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lsetxattr.2.html">lsetxattr</a></td>
+                            <td> set an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L486">fs/xattr.c:486</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fsetxattr.2.html">fsetxattr</a></td>
+                            <td> set an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L493">fs/xattr.c:493</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getxattr.2.html">getxattr</a></td>
+                            <td> retrieve an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L576">fs/xattr.c:576</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lgetxattr.2.html">lgetxattr</a></td>
+                            <td> retrieve an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L582">fs/xattr.c:582</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fgetxattr.2.html">fgetxattr</a></td>
+                            <td> retrieve an extended attribute value</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L588">fs/xattr.c:588</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/listxattr.2.html">listxattr</a></td>
+                            <td> list extended attribute names</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L655">fs/xattr.c:655</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/llistxattr.2.html">llistxattr</a></td>
+                            <td> list extended attribute names</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L661">fs/xattr.c:661</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/flistxattr.2.html">flistxattr</a></td>
+                            <td> list extended attribute names</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L667">fs/xattr.c:667</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/removexattr.2.html">removexattr</a></td>
+                            <td> remove an extended attribute</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L720">fs/xattr.c:720</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lremovexattr.2.html">lremovexattr</a>
+                            </td>
+                            <td> remove an extended attribute</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L726">fs/xattr.c:726</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fremovexattr.2.html">fremovexattr</a>
+                            </td>
+                            <td> remove an extended attribute</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/xattr.c#L732">fs/xattr.c:732</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/tkill.2.html">tkill</a></td>
+                            <td> send a signal to a thread</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2942">kernel/signal.c:2942</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/time.2.html">time</a></td>
+                            <td> get time in seconds</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L895">kernel/sys.c:895</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/futex.2.html">futex</a></td>
+                            <td> fast user</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/futex.c#L3243">kernel/futex.c:3243</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_setaffinity.2.html">sched_setaffinity</a>
+                            </td>
+                            <td> set and get a thread's CPU affinity mask</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4794">kernel/sched/core.c:4794</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_getaffinity.2.html">sched_getaffinity</a>
+                            </td>
+                            <td> set and get a thread's CPU affinity mask</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4846">kernel/sched/core.c:4846</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/io_setup.2.html">io_setup</a></td>
+                            <td> create an asynchronous I/O context</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/aio.c#L1341">fs/aio.c:1341</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/io_destroy.2.html">io_destroy</a></td>
+                            <td> destroy an asynchronous I/O context</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/aio.c#L1410">fs/aio.c:1410</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/io_getevents.2.html">io_getevents</a>
+                            </td>
+                            <td> read asynchronous I/O events from the completion queue</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/aio.c#L1821">fs/aio.c:1821</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/io_submit.2.html">io_submit</a></td>
+                            <td> submit asynchronous I/O blocks for processing</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/aio.c#L1694">fs/aio.c:1694</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/io_cancel.2.html">io_cancel</a></td>
+                            <td> cancel an outstanding asynchronous I/O operation</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/aio.c#L1769">fs/aio.c:1769</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/lookup_dcookie.2.html">lookup_dcookie</a>
+                            </td>
+                            <td> return a directory entry's path</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/dcookies.c#L149">fs/dcookies.c:149</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/epoll_create.2.html">epoll_create</a>
+                            </td>
+                            <td> open an epoll file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventpoll.c#L1836">fs/eventpoll.c:1836</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/remap_file_pages.2.html">remap_file_pages</a>
+                            </td>
+                            <td> create a nonlinear file mapping</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mmap.c#L2698">mm/mmap.c:2698</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getdents64.2.html">getdents64</a></td>
+                            <td> get directory entries</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/readdir.c#L294">fs/readdir.c:294</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/set_tid_address.2.html">set_tid_address</a>
+                            </td>
+                            <td> set pointer to thread ID</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/fork.c#L1411">kernel/fork.c:1411</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/restart_syscall.2.html">restart_syscall</a>
+                            </td>
+                            <td> restart a system call after interruption by a stop signal</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2454">kernel/signal.c:2454</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/semtimedop.2.html">semtimedop</a></td>
+                            <td> System V semaphore operations</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/sem.c#L1755">ipc/sem.c:1755</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fadvise64.2.html">fadvise64</a></td>
+                            <td> predeclare an access pattern for file data</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/fadvise.c#L181">mm/fadvise.c:181</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timer_create.2.html">timer_create</a>
+                            </td>
+                            <td> create a POSIX per</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L602">kernel/time/posix-timers.c:602</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timer_settime.2.html">timer_settime</a>
+                            </td>
+                            <td> arm/disarm and fetch state of POSIX per</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L881">kernel/time/posix-timers.c:881</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timer_gettime.2.html">timer_gettime</a>
+                            </td>
+                            <td> arm/disarm and fetch state of POSIX per</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L777">kernel/time/posix-timers.c:777</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timer_getoverrun.2.html">timer_getoverrun</a>
+                            </td>
+                            <td> get overrun count for a POSIX per</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L813">kernel/time/posix-timers.c:813</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timer_delete.2.html">timer_delete</a>
+                            </td>
+                            <td> delete a POSIX per</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L944">kernel/time/posix-timers.c:944</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/clock_settime.2.html">clock_settime</a>
+                            </td>
+                            <td> clock and time functions</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-stubs.c#L49">kernel/time/posix-stubs.c:49</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/clock_gettime.2.html">clock_gettime</a>
+                            </td>
+                            <td> clock and time functions</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-stubs.c#L61">kernel/time/posix-stubs.c:61</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/clock_getres.2.html">clock_getres</a>
+                            </td>
+                            <td> clock and time functions</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-stubs.c#L77">kernel/time/posix-stubs.c:77</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/clock_nanosleep.2.html">clock_nanosleep</a>
+                            </td>
+                            <td> high</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-stubs.c#L96">kernel/time/posix-stubs.c:96</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/exit_group.2.html">exit_group</a></td>
+                            <td> exit all threads in a process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/exit.c#L952">kernel/exit.c:952</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/epoll_wait.2.html">epoll_wait</a></td>
+                            <td> wait for an I/O event on an epoll file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventpoll.c#L2005">fs/eventpoll.c:2005</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/epoll_ctl.2.html">epoll_ctl</a></td>
+                            <td> control interface for an epoll file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventpoll.c#L1849">fs/eventpoll.c:1849</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/tgkill.2.html">tgkill</a></td>
+                            <td> send a signal to a thread</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L2926">kernel/signal.c:2926</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/utimes.2.html">utimes</a></td>
+                            <td> change file last access and modification times</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/utimes.c#L217">fs/utimes.c:217</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mbind.2.html">mbind</a></td>
+                            <td> set memory policy for a memory range</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mempolicy.c#L1332">mm/mempolicy.c:1332</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/set_mempolicy.2.html">set_mempolicy</a>
+                            </td>
+                            <td> set default NUMA memory policy for a thread and its children</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mempolicy.c#L1354">mm/mempolicy.c:1354</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/get_mempolicy.2.html">get_mempolicy</a>
+                            </td>
+                            <td> retrieve NUMA memory policy for a thread</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mempolicy.c#L1469">mm/mempolicy.c:1469</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_open.2.html">mq_open</a></td>
+                            <td> open a message queue</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L769">ipc/mqueue.c:769</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_unlink.2.html">mq_unlink</a></td>
+                            <td> remove a message queue</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L850">ipc/mqueue.c:850</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_timedsend.2.html">mq_timedsend</a>
+                            </td>
+                            <td> send a message to a message queue</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L956">ipc/mqueue.c:956</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_timedreceive.2.html">mq_timedreceive</a>
+                            </td>
+                            <td> receive a message from a message queue</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L1077">ipc/mqueue.c:1077</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_notify.2.html">mq_notify</a></td>
+                            <td> register for notification when a message is available</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L1187">ipc/mqueue.c:1187</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mq_getsetattr.2.html">mq_getsetattr</a>
+                            </td>
+                            <td> get/set message queue attributes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/ipc/mqueue.c#L1319">ipc/mqueue.c:1319</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/kexec_load.2.html">kexec_load</a></td>
+                            <td> load a new kernel for later execution</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/kexec.c#L187">kernel/kexec.c:187</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/waitid.2.html">waitid</a></td>
+                            <td> wait for process to change state</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/exit.c#L1595">kernel/exit.c:1595</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/add_key.2.html">add_key</a></td>
+                            <td> add a key to the kernel's key management facility</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/security/keys/keyctl.c#L60">security/keys/keyctl.c:60</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/request_key.2.html">request_key</a></td>
+                            <td> request a key from the kernel's key management facility</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/security/keys/keyctl.c#L158">security/keys/keyctl.c:158</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/keyctl.2.html">keyctl</a></td>
+                            <td> manipulate the kernel's key management facility</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/security/keys/keyctl.c#L1586">security/keys/keyctl.c:1586</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ioprio_set.2.html">ioprio_set</a></td>
+                            <td> get/set I/O scheduling class and priority</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/block/ioprio.c#L61">block/ioprio.c:61</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ioprio_get.2.html">ioprio_get</a></td>
+                            <td> get/set I/O scheduling class and priority</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/block/ioprio.c#L181">block/ioprio.c:181</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/inotify_init.2.html">inotify_init</a>
+                            </td>
+                            <td> initialize an inotify instance</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/inotify/inotify_user.c#L694">fs/notify/inotify/inotify_user.c:694</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/inotify_add_watch.2.html">inotify_add_watch</a>
+                            </td>
+                            <td> add a watch to an initialized inotify instance</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/inotify/inotify_user.c#L699">fs/notify/inotify/inotify_user.c:699</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/inotify_rm_watch.2.html">inotify_rm_watch</a>
+                            </td>
+                            <td> remove an existing watch from an inotify instance</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/inotify/inotify_user.c#L756">fs/notify/inotify/inotify_user.c:756</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/migrate_pages.2.html">migrate_pages</a>
+                            </td>
+                            <td> move all pages in a process to another set of nodes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mempolicy.c#L1373">mm/mempolicy.c:1373</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/openat.2.html">openat</a></td>
+                            <td> open and possibly create a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L1074">fs/open.c:1074</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mkdirat.2.html">mkdirat</a></td>
+                            <td> create a directory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L3745">fs/namei.c:3745</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mknodat.2.html">mknodat</a></td>
+                            <td> create a special or ordinary file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L3670">fs/namei.c:3670</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fchownat.2.html">fchownat</a></td>
+                            <td> change ownership of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L626">fs/open.c:626</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/futimesat.2.html">futimesat</a></td>
+                            <td> change timestamps of a file relative to a directory file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/utimes.c#L189">fs/utimes.c:189</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/newfstatat.2.html">newfstatat</a></td>
+                            <td> get file status</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/stat.c#L291">fs/stat.c:291</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/unlinkat.2.html">unlinkat</a></td>
+                            <td> delete a name and possibly the file it refers to</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4015">fs/namei.c:4015</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/renameat.2.html">renameat</a></td>
+                            <td> change the name or location of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4564">fs/namei.c:4564</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/linkat.2.html">linkat</a></td>
+                            <td> make a new name for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4177">fs/namei.c:4177</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/symlinkat.2.html">symlinkat</a></td>
+                            <td> make a new name for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4052">fs/namei.c:4052</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/readlinkat.2.html">readlinkat</a></td>
+                            <td> read value of a symbolic link</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/stat.c#L315">fs/stat.c:315</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fchmodat.2.html">fchmodat</a></td>
+                            <td> change permissions of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L561">fs/open.c:561</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/faccessat.2.html">faccessat</a></td>
+                            <td> check user's permissions for a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L354">fs/open.c:354</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pselect6.2.html">pselect6</a></td>
+                            <td> synchronous I/O multiplexing</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/select.c#L714">fs/select.c:714</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/ppoll.2.html">ppoll</a></td>
+                            <td> wait for some event on a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/select.c#L1005">fs/select.c:1005</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/unshare.2.html">unshare</a></td>
+                            <td> disassociate parts of the process execution context</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/fork.c#L2181">kernel/fork.c:2181</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/set_robust_list.2.html">set_robust_list</a>
+                            </td>
+                            <td> get/set list of robust futexes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/futex.c#L2986">kernel/futex.c:2986</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/get_robust_list.2.html">get_robust_list</a>
+                            </td>
+                            <td> get/set list of robust futexes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/futex.c#L3008">kernel/futex.c:3008</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/splice.2.html">splice</a></td>
+                            <td> splice data to/from a pipe</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/splice.c#L1400">fs/splice.c:1400</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/tee.2.html">tee</a></td>
+                            <td> duplicating pipe content</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/splice.c#L1733">fs/splice.c:1733</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sync_file_range.2.html">sync_file_range</a>
+                            </td>
+                            <td> sync a file segment with disk</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/sync.c#L282">fs/sync.c:282</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/vmsplice.2.html">vmsplice</a></td>
+                            <td> splice user pages into a pipe</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/splice.c#L1354">fs/splice.c:1354</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/move_pages.2.html">move_pages</a></td>
+                            <td> move individual pages of a process to another node</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/migrate.c#L1663">mm/migrate.c:1663</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/utimensat.2.html">utimensat</a></td>
+                            <td> change file timestamps with nanosecond precision</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/utimes.c#L171">fs/utimes.c:171</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/epoll_pwait.2.html">epoll_pwait</a></td>
+                            <td> wait for an I/O event on an epoll file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventpoll.c#L2051">fs/eventpoll.c:2051</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/signalfd.2.html">signalfd</a></td>
+                            <td> create a file descriptor for accepting signals</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/signalfd.c#L309">fs/signalfd.c:309</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timerfd_create.2.html">timerfd_create</a>
+                            </td>
+                            <td> timers that notify via file descriptors</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/timerfd.c#L376">fs/timerfd.c:376</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/eventfd.2.html">eventfd</a></td>
+                            <td> create a file descriptor for event notification</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventfd.c#L483">fs/eventfd.c:483</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fallocate.2.html">fallocate</a></td>
+                            <td> manipulate file space</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/open.c#L337">fs/open.c:337</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timerfd_settime.2.html">timerfd_settime</a>
+                            </td>
+                            <td> timers that notify via file descriptors</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/timerfd.c#L524">fs/timerfd.c:524</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/timerfd_gettime.2.html">timerfd_gettime</a>
+                            </td>
+                            <td> timers that notify via file descriptors</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/timerfd.c#L542">fs/timerfd.c:542</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/accept4.2.html">accept4</a></td>
+                            <td> accept a connection on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L1461">net/socket.c:1461</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/signalfd4.2.html">signalfd4</a></td>
+                            <td> create a file descriptor for accepting signals</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/signalfd.c#L255">fs/signalfd.c:255</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/eventfd2.2.html">eventfd2</a></td>
+                            <td> create a file descriptor for event notification</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventfd.c#L458">fs/eventfd.c:458</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/epoll_create1.2.html">epoll_create1</a>
+                            </td>
+                            <td> open an epoll file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/eventpoll.c#L1793">fs/eventpoll.c:1793</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/dup3.2.html">dup3</a></td>
+                            <td> duplicate a file descriptor</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/file.c#L889">fs/file.c:889</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pipe2.2.html">pipe2</a></td>
+                            <td> create pipe</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/pipe.c#L839">fs/pipe.c:839</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/inotify_init1.2.html">inotify_init1</a>
+                            </td>
+                            <td> initialize an inotify instance</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/inotify/inotify_user.c#L669">fs/notify/inotify/inotify_user.c:669</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/preadv.2.html">preadv</a></td>
+                            <td> read or write
+                                   data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1020">fs/read_write.c:1020</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pwritev.2.html">pwritev</a></td>
+                            <td> read or write
+                                   data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1040">fs/read_write.c:1040</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/rt_tgsigqueueinfo.2.html">rt_tgsigqueueinfo</a>
+                            </td>
+                            <td> queue a signal and data</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/signal.c#L3013">kernel/signal.c:3013</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/perf_event_open.2.html">perf_event_open</a>
+                            </td>
+                            <td> set up performance monitoring</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/events/core.c#L9614">kernel/events/core.c:9614</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/recvmmsg.2.html">recvmmsg</a></td>
+                            <td> receive multiple messages on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L2315">net/socket.c:2315</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fanotify_init.2.html">fanotify_init</a>
+                            </td>
+                            <td> create and initialize fanotify group</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/fanotify/fanotify_user.c#L707">fs/notify/fanotify/fanotify_user.c:707</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/fanotify_mark.2.html">fanotify_mark</a>
+                            </td>
+                            <td> add, remove, or modify an fanotify mark on a filesystem object</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/notify/fanotify/fanotify_user.c#L815">fs/notify/fanotify/fanotify_user.c:815</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/prlimit64.2.html">prlimit64</a></td>
+                            <td> get/set resource limits</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L1449">kernel/sys.c:1449</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/name_to_handle_at.2.html">name_to_handle_at</a>
+                            </td>
+                            <td> obtain handle for a pathname and open file via a handle</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/fhandle.c#L92">fs/fhandle.c:92</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/open_by_handle_at.2.html">open_by_handle_at</a>
+                            </td>
+                            <td> obtain handle for a pathname and open file via a handle</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/fhandle.c#L255">fs/fhandle.c:255</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/clock_adjtime.2.html">clock_adjtime</a>
+                            </td>
+                            <td> </td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/time/posix-timers.c#L1045">kernel/time/posix-timers.c:1045</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/syncfs.2.html">syncfs</a></td>
+                            <td> commit filesystem caches to disk</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/sync.c#L154">fs/sync.c:154</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sendmmsg.2.html">sendmmsg</a></td>
+                            <td> send multiple messages on a socket</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/net/socket.c#L2101">net/socket.c:2101</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/setns.2.html">setns</a></td>
+                            <td> reassociate thread with a namespace</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/nsproxy.c#L236">kernel/nsproxy.c:236</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getcpu.2.html">getcpu</a></td>
+                            <td> determine CPU and NUMA node on which the calling thread is running</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sys.c#L2271">kernel/sys.c:2271</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/process_vm_readv.2.html">process_vm_readv</a>
+                            </td>
+                            <td> transfer data between process
+                                   address spaces</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/process_vm_access.c#L299">mm/process_vm_access.c:299</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/process_vm_writev.2.html">process_vm_writev</a>
+                            </td>
+                            <td> transfer data between process
+                                   address spaces</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/process_vm_access.c#L306">mm/process_vm_access.c:306</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/kcmp.2.html">kcmp</a></td>
+                            <td> compare two processes to determine if they share a kernel
+                                   resource</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/kcmp.c#L97">kernel/kcmp.c:97</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/finit_module.2.html">finit_module</a>
+                            </td>
+                            <td> load a kernel module</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/module.c#L3790">kernel/module.c:3790</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_setattr.2.html">sched_setattr</a>
+                            </td>
+                            <td> set and get scheduling policy and
+                                   attributes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4502">kernel/sched/core.c:4502</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/sched_getattr.2.html">sched_getattr</a>
+                            </td>
+                            <td> set and get scheduling policy and
+                                   attributes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/sched/core.c#L4643">kernel/sched/core.c:4643</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/renameat2.2.html">renameat2</a></td>
+                            <td> change the name or location of a file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/namei.c#L4421">fs/namei.c:4421</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/seccomp.2.html">seccomp</a></td>
+                            <td> operate on Secure Computing state of the process</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/seccomp.c#L796">kernel/seccomp.c:796</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/getrandom.2.html">getrandom</a></td>
+                            <td> obtain a series of random bytes</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/drivers/char/random.c#L1880">drivers/char/random.c:1880</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/memfd_create.2.html">memfd_create</a>
+                            </td>
+                            <td> create an anonymous file</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/shmem.c#L3499">mm/shmem.c:3499</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/kexec_file_load.2.html">kexec_file_load</a>
+                            </td>
+                            <td> load a new kernel for later execution</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/kexec_file.c#L260">kernel/kexec_file.c:260</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/bpf.2.html">bpf</a></td>
+                            <td> perform a command on an extended BPF map or program</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/bpf/syscall.c#L1005">kernel/bpf/syscall.c:1005</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/userfaultfd.2.html">userfaultfd</a></td>
+                            <td> create a file descriptor for handling page faults in
+                                   user space</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/userfaultfd.c#L1354">fs/userfaultfd.c:1354</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/membarrier.2.html">membarrier</a></td>
+                            <td> issue memory barriers on a set of threads</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/kernel/membarrier.c#L52">kernel/membarrier.c:52</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/mlock2.2.html">mlock2</a></td>
+                            <td> lock and unlock memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mlock.c#L717">mm/mlock.c:717</a></td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/copy_file_range.2.html">copy_file_range</a>
+                            </td>
+                            <td> Copy a range of data from one file to another</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1583">fs/read_write.c:1583</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/preadv2.2.html">preadv2</a></td>
+                            <td> read or write
+                                   data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1028">fs/read_write.c:1028</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pwritev2.2.html">pwritev2</a></td>
+                            <td> read or write
+                                   data into multiple buffers</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/fs/read_write.c#L1048">fs/read_write.c:1048</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pkey_mprotect.2.html">pkey_mprotect</a>
+                            </td>
+                            <td> set protection on a region of memory</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mprotect.c#L502">mm/mprotect.c:502</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pkey_alloc.2.html">pkey_alloc</a></td>
+                            <td> allocate or free a protection key</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mprotect.c#L508">mm/mprotect.c:508</a>
+                            </td>
+                     </tr>
+                     <tr>
+                            <td> <a href="http://man7.org/linux/man-pages/man2/pkey_free.2.html">pkey_free</a></td>
+                            <td> allocate or free a protection key</td>
+                            <td><a href="https://elixir.bootlin.com/linux/v5.18/source/mm/mprotect.c#L538">mm/mprotect.c:538</a>
+                            </td>
+                     </tr>
+              </table>
+       </div>
+</body>
+
+</html>
