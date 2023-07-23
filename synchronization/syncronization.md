@@ -192,36 +192,35 @@ $ python3 sem.py
 
 이는 아래와 같이 세마포를 이용해 해결할 수 있습니다.
 
-02줄에서 세마포를 사용할 수 있도록 import 해주고, 14줄에서 세마포를 `sem`이라는 이름으로 정의해줍니다. 
+세마포를 사용할 수 있도록 첫번째 줄에서 import 해주고, 세마포를 `sem`이라는 이름으로 정의해줍니다. 
 
 괄호 안에 들어가는 숫자 1은 공유 자원의 숫자입니다. 아무것도 기입하지 않을 시 1로 초기화되지만, 이해를 돕기 위해 1을 명시했습니다.
 
-그리고 공유 자원에 접근하는 임계 영역 전후로, 즉 07줄과 11줄에서 세마포를 `acquire`하고 `release`해주면 됩니다.
+그리고 공유 자원에 접근하는 임계 영역 전후로, 즉 08줄과 11줄에서 세마포를 `acquire`하고 `release`해주면 됩니다.
 
 세마포를 acquire하지 못한 스레드는 대기하고, release를 통해 깨어남을 통해 동기화가 이루어집니다.
 
 ```python
-  1 from threading import Thread
-  2 from threading import Semaphore
-  3
-  4 num = 0
+  1 from threading import Thread, Semaphore
+  2
+  3 num = 0
+  4 sem = Semaphore(1)
   5
   6 def foo(sem):
-  7     sem.acquire()
-  8     for _ in range(100000):
-  9         global num
+  7     global num
+  8     sem.acquire()
+  9     for _ in range(100000):
  10         num += 1
  11     sem.release()
  12
  13 if __name__ == '__main__':
- 14     sem = Semaphore(1)
- 15     t1 = Thread(target=foo, args=(sem,))
- 16     t2 = Thread(target=foo, args=(sem,))
- 17
- 18     t1.start()
- 19     t2.start()
- 20
- 21     print(num)
+ 14     t1 = Thread(target=foo, args=(sem,))
+ 15     t2 = Thread(target=foo, args=(sem,))
+ 16     t1.start()
+ 17     t2.start()
+ 18     t1.join()
+ 19     t2.join()
+ 20     print(num)
 ```
 
 
