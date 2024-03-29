@@ -5,7 +5,7 @@
 가장 먼저 아래와 같은 간단한 소스 코드를 봅시다.
 
 ```c
-include <stdio.h>
+#include <stdio.h>
 
 int main()
 {
