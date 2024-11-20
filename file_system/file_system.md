@@ -12,7 +12,7 @@ ext 파일 시스템과 NTFS를 이해하는 데에 좋은 글, 영상을 이하
 
 ### 리눅스의 ext 파일 시스템
 
-- [1](https://tech.osci.kr/2018/07/31/%EB%A6%AC%EB%88%85%EC%8A%A4-%ED%8C%8C%EC%9D%BC-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-ext4/)
+- [1](https://tech.osci.kr/%EB%A6%AC%EB%88%85%EC%8A%A4-%ED%8C%8C%EC%9D%BC-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-ext4/)
 
 - [2](https://www.youtube.com/watch?v=B6kg2zeJ9do)
 
